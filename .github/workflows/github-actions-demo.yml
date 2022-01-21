@@ -1,11 +1,33 @@
 name: GitHub Checkout Action Demo
 on: [push]
 jobs:
-  Explore-GitHub-Checkout-Action:
+  checkout:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: List files in the repository
+      - name: Check version
+        run: |
+          git describe --always --match "v*"
+  checkout-depth-0:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Check version
+        run: |
+          git describe --always --match "v*"
+  checkout-fetch-tags:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Unshallow
+        run: |
+          git fetch --prune --unshallow
+          git fetch --tags -f
+      - name: Check version
         run: |
           git describe --always --match "v*"

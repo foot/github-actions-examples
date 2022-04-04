@@ -34,3 +34,36 @@ jobs:
         run: |
           git tag
           git describe --always --match "v*"
+  v3-checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Check version
+        run: |
+          git tag
+          git describe --always --match "v*"
+  v3-checkout-depth-0:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Check version
+        run: |
+          git tag
+          git describe --always --match "v*"
+  v3-checkout-fetch-tags:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Unshallow
+        run: |
+          git fetch --prune --unshallow
+          git fetch --tags -f
+      - name: Check version
+        run: |
+          git tag
+          git describe --always --match "v*"
